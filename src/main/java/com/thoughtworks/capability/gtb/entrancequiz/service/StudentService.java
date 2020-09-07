@@ -1,15 +1,21 @@
 package com.thoughtworks.capability.gtb.entrancequiz.service;
 
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
+import com.thoughtworks.capability.gtb.entrancequiz.domain.StudentGroup;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
     static List<Student> students = new ArrayList<>();
+    List<StudentGroup> groups = new ArrayList<>();
 
     public StudentService() throws Exception {
         setup();
@@ -40,5 +46,26 @@ public class StudentService {
 
     public List<Student> getAllStudent() {
         return students;
+    }
+
+    public List<StudentGroup> divide() {
+
+        for (int i = 1; i <= 6; i++){
+            StudentGroup group = new StudentGroup("Team " +i);
+            groups.add(group);
+        }
+
+        Collections.shuffle(students);
+        Iterator<Student> it = students.iterator();
+        int groupIndex = 0;
+        while (it.hasNext()){
+            if (groupIndex == 6){
+                groupIndex = 0;
+            }
+            Student student = it.next();
+            groups.get(groupIndex).addToGroup(student);
+            groupIndex += 1;
+        }
+        return groups;
     }
 }

@@ -33,4 +33,14 @@ class StudentControllerTest {
                 .andExpect(status().isOk());
 
     }
+
+    @Test
+    void should_return_student_group_list_when_divide() throws Exception {
+        mockMvc.perform(get("/students/groups"))
+                .andExpect(jsonPath("$.[0].students",hasSize(6)))
+                .andExpect(jsonPath("$.[0].groupName",is("Team 1")))
+                .andExpect(jsonPath("$",hasSize(6)))
+                .andExpect(jsonPath("$.[5].students",hasSize(5)))
+                .andExpect(status().isOk());
+    }
 }
