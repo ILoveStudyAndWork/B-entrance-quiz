@@ -20,7 +20,7 @@ public class StudentService {
             File file = new File("C:\\Users\\85067\\workspace\\GTB\\B-entrance-quiz\\students.txt");
             if (file.isFile() && file.exists()) {
                 InputStreamReader inputStreamReader = new InputStreamReader(
-                        new FileInputStream(file), "UTF_8");
+                        new FileInputStream(file), "UTF-8");
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String student;
                 int id = 0;
