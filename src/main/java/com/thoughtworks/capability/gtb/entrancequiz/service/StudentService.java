@@ -4,19 +4,20 @@ import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.StudentGroup;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.security.acl.Group;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
     static List<Student> students = new ArrayList<>();
     List<StudentGroup> groups = new ArrayList<>();
-
+    Boolean isFirstDivide = true;
     public StudentService() throws Exception {
         setup();
     }
@@ -49,14 +50,18 @@ public class StudentService {
     }
 
     public List<StudentGroup> divide() {
-
-        for (int i = 1; i <= 6; i++){
-            StudentGroup group = new StudentGroup("Team " +i);
-            groups.add(group);
+        List<Student> StudentToBeDivide = new ArrayList<>();
+        StudentToBeDivide.addAll(students);
+        if (isFirstDivide == true){
+            for (int i = 1; i <= 6; i++){
+                StudentGroup group = new StudentGroup("Team " +i);
+                groups.add(group);
+            }
+            isFirstDivide = false;
         }
 
-        Collections.shuffle(students);
-        Iterator<Student> it = students.iterator();
+        Collections.shuffle(StudentToBeDivide);
+        Iterator<Student> it = StudentToBeDivide.iterator();
         int groupIndex = 0;
         while (it.hasNext()){
             if (groupIndex == 6){
